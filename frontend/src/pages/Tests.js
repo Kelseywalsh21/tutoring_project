@@ -88,7 +88,7 @@ export default function Tests() {
                                 </>
                             ) : (
                                 <>
-                                    <td>{student ? `${student.firstName} ${student.lastName}` : 'Unknown'}</td>
+                                    <td>{student ? `${student.first_name} ${student.last_name}` : 'Unknown'}</td>
                                     <td>{test.date}</td>
                                     <td>{test.score}</td>
                                     <td>{test.description}</td>
@@ -108,7 +108,7 @@ export default function Tests() {
             <form className="add-test-form" onSubmit={handleAdd}>
                 <select name="student" value={newTest.student} onChange={e => setNewTest(prev => ({ ...prev, student: e.target.value }))}>
                     <option value="">Select Student</option>
-                    {students.map(s => <option key={s.id} value={s.id}>{s.firstName} {s.lastName}</option>)}
+                    {students.map(s => <option key={s.id} value={s.id}>{s.first_name} {s.last_name}</option>)}
                 </select>
                 <input type="date" name="date" value={newTest.date} onChange={e => setNewTest(prev => ({ ...prev, date: e.target.value }))} />
                 <input type="number" name="score" placeholder="Score" value={newTest.score} onChange={e => setNewTest(prev => ({ ...prev, score: e.target.value }))} />
