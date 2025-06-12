@@ -95,7 +95,7 @@ export default function ChangeRequests() {
                                     <td>
                                         <select value={req.submittedBy} onChange={e => handleFieldEdit(req.change_id, 'submittedBy', e.target.value)}>
                                             <option value="">Select</option>
-                                            {students.map(s => <option key={s.id} value={s.id}>{s.firstName} {s.lastName}</option>)}
+                                            {students.map(s => <option key={s.id} value={s.id}>{s.first_name} {s.last_name}</option>)}
                                         </select>
                                     </td>
                                     <td>
@@ -119,7 +119,7 @@ export default function ChangeRequests() {
                                 </>
                             ) : (
                                 <>
-                                    <td>{student ? `${student.firstName} ${student.lastName}` : 'Unknown'}</td>
+                                    <td>{student ? `${student.first_name} ${student.last_name}` : 'Unknown'}</td>
                                     <td>{course ? course.name : 'Unknown'}</td>
                                     <td>{req.changeType}</td>
                                     <td>{req.status}</td>
@@ -139,7 +139,7 @@ export default function ChangeRequests() {
             <form className="add-request-form" onSubmit={handleAdd}>
                 <select name="submittedBy" value={newReq.submittedBy} onChange={e => setNewReq({ ...newReq, submittedBy: e.target.value })}>
                     <option value="">Select Student</option>
-                    {students.map(s => <option key={s.id} value={s.id}>{s.firstName} {s.lastName}</option>)}
+                    {students.map(s => <option key={s.id} value={s.id}>{s.first_name} {s.last_name}</option>)}
                 </select>
                 <select name="course" value={newReq.course} onChange={e => setNewReq({ ...newReq, course: e.target.value })}>
                     <option value="">Select Course</option>

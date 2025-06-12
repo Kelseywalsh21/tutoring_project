@@ -75,7 +75,7 @@ export default function Tests() {
                                     <td>
                                         <select value={test.student} onChange={e => handleFieldEdit(test.id, 'student', e.target.value)}>
                                             <option value="">Select</option>
-                                            {students.map(s => <option key={s.id} value={s.id}>{s.firstName} {s.lastName}</option>)}
+                                            {students.map(s => <option key={s.id} value={s.id}>{s.first_name} {s.last_name}</option>)}
                                         </select>
                                     </td>
                                     <td><input type="date" value={test.date} onChange={e => handleFieldEdit(test.id, 'date', e.target.value)} /></td>
