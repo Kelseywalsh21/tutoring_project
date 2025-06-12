@@ -1,0 +1,147 @@
+
+.courses-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .search-input {
+    display: block;
+    width: 60%;
+    max-width: 400px;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .courses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background-color: #fdfdfd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .courses-table th, .courses-table td {
+    border: 1px solid #eee;
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+  
+  .courses-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .courses-table td button {
+    margin-right: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    background-color: #1976d2;
+    color: white;
+    font-size: 0.85rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .courses-table td button:hover {
+    background-color: #125aad;
+  }
+  
+  .add-course-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .courses-table input,
+  .courses-table select {
+    max-width: 150px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .courses-table select {
+    appearance: none;
+    background-color: #fff;
+   
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1rem;
+    padding-right: 1.8rem;
+  }
+  
+  .add-course-form input,
+  .add-course-form select {
+    padding: 0.6rem;
+    width: 220px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .courses-table td {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: top;
+  }
+
+  .add-course-form button {
+    background-color: #388e3c;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-course-form button:hover {
+    background-color: #2e7d32;
+  }
+  
+  details summary {
+    cursor: pointer;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  details ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+    list-style-type: disc;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }

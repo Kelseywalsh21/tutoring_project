@@ -1,0 +1,25 @@
+# Python / Django
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+env/
+venv/
+.env
+
+# Node / React
+node_modules/
+build/
+dist/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# Ignore frontend build output (optional)
+frontend/build/
