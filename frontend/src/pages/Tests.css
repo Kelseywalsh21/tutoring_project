@@ -1,0 +1,41 @@
+.tests-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+.tests-container h1,
+.tests-container h2 { text-align: center; color: #333; margin-bottom: 1rem; }
+.tests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+}
+.tests-table th, .tests-table td {
+    border: 1px solid #eee;
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.95rem;
+}
+.tests-table th { background: #f0f0f0; font-weight: bold; }
+.tests-table td button { margin-right: 0.5rem; padding: 0.4rem 0.8rem; border: none; border-radius: 4px; cursor: pointer; }
+.tests-table td button:hover { background: #555; color: #fff; }
+.add-test-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+.add-test-form select,
+.add-test-form input,
+.add-test-form button {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+.add-test-form button { background: #388e3c; color: #fff; border: none; cursor: pointer; }
+.add-test-form button:hover { background: #2e7d32; }
