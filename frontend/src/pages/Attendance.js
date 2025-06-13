@@ -9,7 +9,7 @@ export default function Attendance() {
   const [sessions, setSessions] = useState([]);
   const [attendanceRecords, setAttendanceRecords] = useState([]);
 
-  // Keep attendance markings per session: { sessionId: { studentId: boolean } }
+  
   const [attendanceMarkings, setAttendanceMarkings] = useState({});
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function Attendance() {
         const [coursesRes, studentsRes, sessionsRes, attendanceRes] = await Promise.all([
           fetch(`${API_BASE}/courses/`),
           fetch(`${API_BASE}/students/`),
-          fetch(`${API_BASE}/scheduledsession/`),
+          fetch(`${API_BASE}/sessions/`),
           fetch(`${API_BASE}/attendance/`),
         ]);
 
@@ -36,7 +36,7 @@ export default function Attendance() {
         setSessions(sessionsData);
         setAttendanceRecords(attendanceData);
 
-        // Initialize attendanceMarkings state per session
+        
         const initialMarkings = {};
         sessionsData.forEach((session) => {
           if (session.status === 'Completed') {
@@ -57,11 +57,11 @@ export default function Attendance() {
     fetchAll();
   }, []);
 
-  // Helper: get students enrolled in course
+  
   const getEnrolledStudents = (courseId) =>
     students.filter((student) => student.course === courseId);
 
-  // Handle checkbox toggle for a particular session + student
+  
   const handleAttendanceChange = (sessionId, studentId, isPresent) => {
     setAttendanceMarkings((prev) => ({
       ...prev,
@@ -72,7 +72,7 @@ export default function Attendance() {
     }));
   };
 
-  // Save attendance for all completed sessions
+  
   const handleSaveAllAttendance = async () => {
     try {
       for (const session of sessions.filter((s) => s.status === 'Completed')) {
@@ -107,7 +107,7 @@ export default function Attendance() {
         }
       }
 
-      // Refresh attendance records after saving
+      
       const attendanceRes = await fetch(`${API_BASE}/attendance/`);
       const updatedAttendance = await attendanceRes.json();
       setAttendanceRecords(updatedAttendance);
@@ -123,6 +123,7 @@ export default function Attendance() {
     <div className="attendance-container">
       <h1>Attendance Management</h1>
 
+      
       <section className="mark-attendance-section">
         <h2>Mark Attendance for Completed Sessions</h2>
 
@@ -140,7 +141,7 @@ export default function Attendance() {
             return (
               <div key={session.id} className="session-container">
                 <h3>
-                  Session Date: {session.sessionDate} — Course: {course?.name || 'N/A'}
+                  Session Date: {session.session_date} — Course: {course?.name || 'N/A'}
                 </h3>
 
                 {enrolledStudents.length === 0 ? (
@@ -157,7 +158,7 @@ export default function Attendance() {
                       {enrolledStudents.map((student) => (
                         <tr key={student.id}>
                           <td>
-                            {student.firstName} {student.lastName}
+                            {student.first_name} {student.last_name}
                           </td>
                           <td style={{ textAlign: 'center' }}>
                             <input
@@ -182,6 +183,63 @@ export default function Attendance() {
             Save All Attendance
           </button>
         )}
+      </section>
+
+      
+      <section className="attendance-history-section" style={{ marginTop: '3rem' }}>
+        <h2>Attendance History (Read-Only)</h2>
+
+        {sessions.filter((s) => s.status === 'Completed').length === 0 && <p>No completed sessions found.</p>}
+
+        {sessions
+          .filter((session) => session.status === 'Completed')
+          .map((session) => {
+            const course = courses.find((c) => c.id === session.course);
+            const enrolledStudents = getEnrolledStudents(session.course);
+            const sessionAttendance = attendanceRecords
+              .filter((rec) => rec.session === session.id)
+              .reduce((acc, rec) => {
+                acc[rec.student] = rec.attended;
+                return acc;
+              }, {});
+
+            return (
+              <div key={`history-${session.id}`} className="session-history-container" style={{ marginBottom: '2rem' }}>
+                <h3>
+                  Session Date: {session.session_date} — Course: {course?.name || 'N/A'}
+                </h3>
+
+                {enrolledStudents.length === 0 ? (
+                  <p>No students enrolled in this course.</p>
+                ) : (
+                  <table className="attendance-table history-table">
+                    <thead>
+                      <tr>
+                        <th>Student</th>
+                        <th>Attendance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {enrolledStudents.map((student) => (
+                        <tr key={`history-student-${student.id}`}>
+                          <td>
+                            {student.first_name} {student.last_name}
+                          </td>
+                          <td style={{ textAlign: 'center' }}>
+                            {sessionAttendance[student.id] ? (
+                              <span style={{ color: 'green' }}>Present</span>
+                            ) : (
+                              <span style={{ color: 'red' }}>Absent</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            );
+          })}
       </section>
     </div>
   );

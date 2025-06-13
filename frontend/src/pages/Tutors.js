@@ -13,7 +13,8 @@ export default function Tutors() {
     first_name: '',
     last_name: '',
     email: '',
-    phone_number: ''
+    phone_number: '',
+    address: ''
   });
 
   
@@ -51,7 +52,7 @@ export default function Tutors() {
       })
       .then(tutor => {
         setTutors([...tutors, tutor]);
-        setNewTutor({ first_name: '', last_name: '', email: '', phone_number: '' });
+        setNewTutor({ first_name: '', last_name: '', email: '', phone_number: '', address: '' });
       })
       .catch(err => console.error('Add tutor error:', err));
   };
@@ -102,6 +103,7 @@ export default function Tutors() {
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Address</th>
             <th>Assigned Students</th>
             <th>Actions</th>
           </tr>
@@ -141,6 +143,11 @@ export default function Tutors() {
                         onChange={e => handleFieldEdit(tutor.id, 'phone_number', e.target.value)}
                       />
                     </td>
+                    <td>
+                      <input value = {tutor.address}
+                      onChange= {e=> handleFieldEdit(tutor.id, 'address', e.target.value)}
+                      />
+                    </td>
                     <td colSpan={2}>
                       <button onClick={() => handleSave(tutor.id)}>Save</button>
                       <button onClick={() => setEditingId(null)}>Cancel</button>
@@ -151,6 +158,7 @@ export default function Tutors() {
                     <td>{tutor.first_name} {tutor.last_name}</td>
                     <td>{tutor.email}</td>
                     <td>{tutor.phone_number}</td>
+                    <td>{tutor.address}</td>
                     <td>
                       <details>
                         <summary>{assignedStudents.length} Student(s)</summary>
@@ -197,6 +205,12 @@ export default function Tutors() {
           name="phone_number"
           value={newTutor.phone_number}
           placeholder="Phone Number"
+          onChange={handleChange}
+        />
+        <input
+          name="address"
+          value={newTutor.address}
+          placeholder="Address"
           onChange={handleChange}
         />
         <button onClick={handleAddTutor}>Add</button>

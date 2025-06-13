@@ -23,13 +23,13 @@ export default function Dashboard() {
   const [courses, setCourses] = useState([]);
   const [students, setStudents] = useState([]);
   const [events, setEvents] = useState([]);
-  const [selectedSessions, setSelectedSessions] = useState([]); // all sessions for selected day
+  const [selectedSessions, setSelectedSessions] = useState([]); 
 
   useEffect(() => {
     async function fetchData() {
       try {
         const [sessionsRes, coursesRes, studentsRes] = await Promise.all([
-          fetch(`${API_BASE}/scheduledsession/`),
+          fetch(`${API_BASE}/sessions/`),
           fetch(`${API_BASE}/courses/`),
           fetch(`${API_BASE}/students/`),
         ]);
@@ -47,7 +47,7 @@ export default function Dashboard() {
 
         const mappedEvents = sessionsData.map((session) => {
           const course = coursesData.find((c) => c.id === session.course);
-          const startDate = parseLocalDate(session.sessionDate);
+          const startDate = parseLocalDate(session.session_date);
           return {
             id: session.id,
             title: course ? course.name : 'Unknown Course',
@@ -72,16 +72,16 @@ export default function Dashboard() {
   };
 
   const handleSelectSlot = ({ start }) => {
-    // Format date to YYYY-MM-DD for comparison
+    
     const clickedDateStr = start.toISOString().slice(0, 10);
 
-    // Filter sessions that match clicked date
-    const sessionsOnDate = sessions.filter(session => session.sessionDate === clickedDateStr);
+    
+    const sessionsOnDate = sessions.filter(session => session.session_date === clickedDateStr);
 
     setSelectedSessions(sessionsOnDate);
   };
 
-  // For each selected session, find enrolled students
+  
   const enrolledStudentsBySession = selectedSessions.map(session => {
     const enrolled = students.filter(student => student.course === session.course);
     return { session, enrolled };
@@ -89,12 +89,12 @@ export default function Dashboard() {
 
   const eventStyleGetter = (event) => {
     const status = event.resource.status;
-    let backgroundColor = '#3174ad'; // default react-big-calendar blue
+    let backgroundColor = '#3174ad'; 
 
     if (status === 'Completed') {
-      backgroundColor = '#add8e6'; // light blue
+      backgroundColor = '#add8e6'; 
     } else if (status === 'Cancelled') {
-      backgroundColor = '#f08080'; // light red
+      backgroundColor = '#f08080'; 
     }
 
     const style = {
@@ -136,7 +136,7 @@ export default function Dashboard() {
       backgroundColor: '#f9f9f9',
     }}
   >
-    <h2>Sessions on {selectedSessions[0].sessionDate}</h2>
+    <h2>Sessions on {selectedSessions[0].session_date}</h2>
 
     {enrolledStudentsBySession.map(({ session, enrolled }) => (
       <div
@@ -166,7 +166,7 @@ export default function Dashboard() {
         ) : (
           <ul>
             {enrolled.map(student => (
-              <li key={student.id}>{student.firstName} {student.lastName}</li>
+              <li key={student.id}>{student.first_name} {student.last_name}</li>
             ))}
           </ul>
         )}

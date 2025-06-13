@@ -9,16 +9,16 @@ export default function ScheduledSessions() {
 
   const [newSession, setNewSession] = useState({
     course: '',
-    sessionDate: '',
-    startTime: '',
-    endTime: '',
+    session_date: '',
+    start_time: '',
+    end_time: '',
     location: '',
     status: '',   
     approved: false
   });
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/scheduledsession/`)
+    fetch(`${API_BASE}/api/sessions/`)
       .then(res => res.json())
       .then(data => {
         const updatedSessions = data.map(session => ({
@@ -37,20 +37,20 @@ export default function ScheduledSessions() {
 
   
   useEffect(() => {
-    if (newSession.sessionDate && newSession.endTime) {
+    if (newSession.session_date && newSession.end_time) {
       const computedStatus = computeStatus(newSession);
       setNewSession(prev => ({ ...prev, status: computedStatus }));
     } else {
       setNewSession(prev => ({ ...prev, status: '' }));
     }
-  }, [newSession.sessionDate, newSession.endTime]);
+  }, [newSession.session_date, newSession.end_time]);
 
 
   const handleSave = (id) => {
     const session = sessions.find(s => s.id === id);
     const updatedStatus = computeStatus(session);
 
-    fetch(`${API_BASE}/api/scheduledsession/${id}/`, {
+    fetch(`${API_BASE}/api/sessions/${id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -67,6 +67,7 @@ export default function ScheduledSessions() {
         setSessions(sessions.map(s => s.id === id ? { ...updated, status: computeStatus(updated) } : s));
         setEditingId(null);
       })
+      
       .catch(err => console.error('Update session error:', err));
   };
 
@@ -96,12 +97,12 @@ export default function ScheduledSessions() {
       return 'Cancelled';
     }
 
-    if (!session.sessionDate || !session.endTime) {
+    if (!session.session_date || !session.end_time) {
       return '';
     }
 
-    const [year, month, day] = session.sessionDate.split('-').map(Number);
-    const [hour, minute] = session.endTime.split(':').map(Number);
+    const [year, month, day] = session.session_date.split('-').map(Number);
+    const [hour, minute] = session.end_time.split(':').map(Number);
     const sessionEndDateTime = new Date(year, month - 1, day, hour, minute, 0);
     const now = new Date();
 
@@ -117,7 +118,7 @@ export default function ScheduledSessions() {
   };
 
   const handleAddSession = () => {
-    fetch(`${API_BASE}/api/scheduledsession/`, {
+    fetch(`${API_BASE}/api/sessions/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -135,9 +136,9 @@ export default function ScheduledSessions() {
         setSessions([...sessions, { ...session, status: computeStatus(session) }]);
         setNewSession({
           course: '',
-          sessionDate: '',
-          startTime: '',
-          endTime: '',
+          session_date: '',
+          start_time: '',
+          end_time: '',
           location: '',
           status: '',
           approved: false
@@ -147,7 +148,7 @@ export default function ScheduledSessions() {
   };
 
   const handleDelete = (id) => {
-    fetch(`${API_BASE}/api/scheduledsession/${id}/`, {
+    fetch(`${API_BASE}/api/sessions/${id}/`, {
       method: 'DELETE'
     })
       .then(res => {
@@ -172,7 +173,7 @@ export default function ScheduledSessions() {
       s.id === session.id ? { ...s, status: newStatus } : s
     ));
 
-    fetch(`${API_BASE}/api/scheduledsession/${session.id}/`, {
+    fetch(`${API_BASE}/api/sessions/${session.id}/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -228,22 +229,22 @@ export default function ScheduledSessions() {
                   <td>
                     <input
                       type="date"
-                      value={session.sessionDate}
-                      onChange={(e) => handleFieldEdit(session.id, 'sessionDate', e.target.value)}
+                      value={session.session_date}
+                      onChange={(e) => handleFieldEdit(session.id, 'session_date', e.target.value)}
                     />
                   </td>
                   <td>
                     <input
                       type="time"
-                      value={session.startTime}
-                      onChange={(e) => handleFieldEdit(session.id, 'startTime', e.target.value)}
+                      value={session.start_time}
+                      onChange={(e) => handleFieldEdit(session.id, 'start_time', e.target.value)}
                     />
                   </td>
                   <td>
                     <input
                       type="time"
-                      value={session.endTime}
-                      onChange={(e) => handleFieldEdit(session.id, 'endTime', e.target.value)}
+                      value={session.end_time}
+                      onChange={(e) => handleFieldEdit(session.id, 'end_time', e.target.value)}
                     />
                   </td>
                   <td>
@@ -272,9 +273,9 @@ export default function ScheduledSessions() {
               ) : (
                 <>
                   <td>{courses.find((c) => c.id === session.course)?.name || 'N/A'}</td>
-                  <td>{session.sessionDate}</td>
-                  <td>{session.startTime}</td>
-                  <td>{session.endTime}</td>
+                  <td>{session.session_date}</td>
+                  <td>{session.start_time}</td>
+                  <td>{session.end_time}</td>
                   <td>{session.location}</td>
                   <td>{session.status}</td>
                   <td>{session.approved ? 'Yes' : 'No'}</td>
@@ -299,9 +300,9 @@ export default function ScheduledSessions() {
             </option>
           ))}
         </select>
-        <input name="sessionDate" type="date" value={newSession.sessionDate} onChange={handleChange} />
-        <input name="startTime" type="time" value={newSession.startTime} onChange={handleChange} />
-        <input name="endTime" type="time" value={newSession.endTime} onChange={handleChange} />
+        <input name="session_date" type="date" value={newSession.session_date} onChange={handleChange} />
+        <input name="start_time" type="time" value={newSession.start_time} onChange={handleChange} />
+        <input name="end_time" type="time" value={newSession.end_time} onChange={handleChange} />
         <input name="location" placeholder="Location" value={newSession.location} onChange={handleChange} />
         <label>
           Approved:
